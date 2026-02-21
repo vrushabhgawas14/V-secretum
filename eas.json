@@ -7,13 +7,13 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
-      "android" : {
-        "buildType" : "apk"
+      "android": {
+        "buildType": "apk"
       },
       "env": {
-        "APP_NAME":"V Secretum Dev",
-        "APP_ICON" :"./assets/vonlyDev.png",
-        "ANDROID_PACKAGE" : "com.vrushabhgawas.v_secretum.dev"
+        "APP_NAME": "V Secretum Dev",
+        "APP_ICON": "./assets/vonlyDev.png",
+        "ANDROID_PACKAGE": "com.vrushabhgawas.v_secretum.dev"
       }
     },
     "preview": {
@@ -22,16 +22,16 @@
         "buildType": "apk"
       },
       "env": {
-        "APP_NAME":"V Secretum",
-        "APP_ICON" :"./assets/vonly.png",
-        "ANDROID_PACKAGE" : "com.vrushabhgawas.v_secretum.preview"
+        "APP_NAME": "V Secretum",
+        "APP_ICON": "./assets/vonly.png",
+        "ANDROID_PACKAGE": "com.vrushabhgawas.v_secretum.preview"
       }
     },
     "production": {
       "autoIncrement": true,
-      "env":{
-          "APP_NAME":"V Secretum",
-          "ANDROID_PACKAGE" : "com.vrushabhgawas.v_secretum"
+      "env": {
+        "APP_NAME": "V Secretum",
+        "ANDROID_PACKAGE": "com.vrushabhgawas.v_secretum"
       }
     }
   },
