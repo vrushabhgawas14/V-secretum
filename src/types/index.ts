@@ -2,22 +2,24 @@ export type Category = "important" | "least_important" | "work" | "other";
 
 export interface PasswordEntry {
   _id?: string;
-  owner_id: string;
-  app_title: string;
+  owner: string;
+  title: string;
   username?: string; // stored encrypted in DB, decrypted in app
   email?: string; // stored encrypted in DB, decrypted in app
-  phone_number?: string; // stored encrypted in DB, decrypted in app
+  phoneNumber?: string; // stored encrypted in DB, decrypted in app
   password: string; // stored encrypted in DB, decrypted in app
-  category: Category;
-  notes?: string;
   website?: string;
+  notes?: string;
+  category: Category;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface User {
-  id: string;
+  _id?: string; // might delete this later
+  googleId: string;
   email: string;
   name: string;
   photoUrl?: string;
+  createdAt?: Date;
 }

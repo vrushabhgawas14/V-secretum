@@ -18,7 +18,7 @@ export default {
       supportsTablet: true,
       bundleIdentifier:
         process.env.ANDROID_PACKAGE || "com.vrushabhgawas.v_secretum", // iOS equivalent
-      googleServicesFile: "./GoogleService-Info.plist",
+      deploymentTarget: "13.0",
     },
     android: {
       adaptiveIcon: {
@@ -28,7 +28,6 @@ export default {
       edgeToEdgeEnabled: true,
       // Use the env var from eas.json
       package: process.env.ANDROID_PACKAGE || "com.vrushabhgawas.v_secretum",
-      googleServicesFile: "./google-services.json",
     },
     web: {
       favicon: "./assets/favicon.png",
@@ -37,10 +36,8 @@ export default {
     plugins: [
       "expo-router",
       "expo-web-browser",
-      "expo-build-properties",
-      {
-        ios: { deploymentTarget: "13.0" },
-      },
+      "expo-secure-store",
+      "expo-local-authentication",
     ],
     extra: {
       eas: {
