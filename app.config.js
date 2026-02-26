@@ -38,6 +38,7 @@ export default {
       "expo-web-browser",
       "expo-secure-store",
       "expo-local-authentication",
+      "@react-native-google-signin/google-signin",
     ],
     extra: {
       eas: {

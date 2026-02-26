@@ -2,37 +2,75 @@ import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import { PasswordEntry } from "../types";
 import { encrypt, decrypt } from "./encryptionService";
+import {
+  GoogleSignin,
+  isErrorWithCode,
+  isSuccessResponse,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
+import { Alert } from "react-native";
 
 // Change to your Vercel URL after deploying
-// const BASE_URL = process.env.LOCAL_BACKEND;
-const BASE_URL = process.env.DEPLOYED_BACKEND;
+// const BASE_URL = process.env.EXPO_PUBLIC_LOCAL_BACKEND;
+const BASE_URL = process.env.EXPO_PUBLIC_DEPLOYED_BACKEND;
 
 // Axios instance that auto-attaches JWT token
 const api = axios.create({ baseURL: BASE_URL });
 
 api.interceptors.request.use(async (config) => {
-  console.log("Interceptors are called!");
   const token = await SecureStore.getItemAsync("jwt_token");
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
+GoogleSignin.configure({
+  webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID,
+  offlineAccess: true,
+});
+
 // ─── Auth ──────────────────────────────────────────────
+export const signIn = async () => {
+  try {
+    console.log("Current Config:", await GoogleSignin.getCurrentUser());
+    await GoogleSignin.hasPlayServices();
+    // await singout();  // clears the current user
+    const response = await GoogleSignin.signIn();
 
-export const loginWithGoogle = async (googleUserInfo: {
-  googleId: string;
-  email: string;
-  name: string;
-  photoUrl?: string;
-}) => {
-  const res = await api.post("/auth/google", googleUserInfo);
-  // Save JWT so all future requests are authenticated
-  await SecureStore.setItemAsync("jwt_token", res.data.token);
-  return res.data.user;
-};
+    if (!isSuccessResponse(response)) {
+      console.log("Sign in cancelled");
+      return null;
+    }
 
-export const clearToken = async () => {
-  await SecureStore.deleteItemAsync("jwt_token");
+    const { idToken } = response.data;
+
+    if (!idToken) {
+      throw new Error("No idToken received from Google");
+    }
+
+    const res = await api.post("/auth/google", { idToken });
+
+    // Save JWT for all future API calls
+    await SecureStore.setItemAsync("jwt_token", res.data.token);
+
+    return res.data.user;
+  } catch (error) {
+    if (isErrorWithCode(error)) {
+      switch (error.code) {
+        case statusCodes.IN_PROGRESS:
+          Alert.alert("Error : Status is in Progress");
+          break;
+        case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+          Alert.alert("Error : Play Services is Not Available");
+          break;
+        default:
+          console.log(error.message);
+          break;
+      }
+    } else {
+      console.log("An error Occured!");
+      Alert.alert("An error Occured!");
+    }
+  }
 };
 
 // ─── Passwords ─────────────────────────────────────────

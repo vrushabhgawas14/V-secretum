@@ -9,6 +9,7 @@
 - configure eas.json
 - npx expo-doctor
 - npx expo prebuild --no-install --platform android
+- `npx expo prebuild -p android` -(creates android folder and gives correct dev network ip)
 - eas build -p android --profile development
 - `npx expo start` OR `npm start`
 - eas build -p android --profile preview
@@ -84,6 +85,31 @@
   ```
 
 - **UI :**
+
   ```
   npm install @rneui/themed @rneui/base react-native-vector-icons
+  ```
+
+- **Install Google Sign in**
+
+  ```
+  npm i @react-native-google-signin/google-signin
+  ```
+
+- **KeyTool for Local SHA1 fingerprint - Not Needed though**
+
+  ```
+  keytool -keystore .\android\app\debug.keystore -list -v -alias androiddebugkey -storepass android -keypass android
+  ```
+
+- **Eas Credentials run in terminal**
+
+  ```
+  eas credentials -p android
+  ```
+
+- **Let server start in lan network address**
+
+  ```
+  npx expo start --lan
   ```
