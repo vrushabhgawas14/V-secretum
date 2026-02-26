@@ -4,7 +4,7 @@ const COLORS = {
   textSecondary: "#687d8f",
   textDark: "#261b36",
   placeholderText: "#767676",
-  background: "#cdd6f4ee",
+  background: "#0f0f1a",
   cardBackground: "#f1f7f8",
   inputBackground: "#f4f9fa",
   border: "#c8dee6",
