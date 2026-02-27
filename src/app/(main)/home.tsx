@@ -17,7 +17,7 @@ import COLORS from "../../constants/color";
 
 const CATEGORIES: { label: string; value: Category | "all" }[] = [
   { label: "All", value: "all" },
-  { label: "🔴 Important", value: "important" },
+  { label: "🔴 Imp", value: "important" },
   { label: "🟡 Least Imp", value: "least_important" },
   { label: "💼 Work", value: "work" },
   { label: "📁 Other", value: "other" },

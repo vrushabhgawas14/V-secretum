@@ -95,7 +95,15 @@ export const getAllPasswords = async (
   userId: string,
 ): Promise<PasswordEntry[]> => {
   const res = await api.get("/passwords");
-  return res.data.map((e: any) => decryptEntry(e, userId));
+  return res.data;
+};
+
+export const getPasswordWithID = async (
+  userId: string,
+  pass_id: string,
+): Promise<PasswordEntry | null> => {
+  const res = await api.get(`/passwords/${pass_id}`);
+  return res.data ? decryptEntry(res.data, userId) : null;
 };
 
 export const addPassword = async (
