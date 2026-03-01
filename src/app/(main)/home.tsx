@@ -8,6 +8,7 @@ import {
   StyleSheet,
   RefreshControl,
   Alert,
+  Image,
 } from "react-native";
 import { router } from "expo-router";
 import { useAuthStore } from "../../store/authStore";
@@ -42,7 +43,7 @@ export default function Home() {
     if (!user || !user._id) return;
     setRefreshing(true);
     try {
-      const data = await getAllPasswords(user._id);
+      const data = await getAllPasswords();
       setPasswords(data);
     } catch {
       Alert.alert("Error", "Failed to load passwords.");
@@ -67,7 +68,7 @@ export default function Home() {
         (p) =>
           p.title.toLowerCase().includes(q) ||
           p.username?.toLowerCase().includes(q) ||
-          p.website?.toLowerCase().includes(q),
+          p.website?.toLowerCase().includes(q)
       );
     }
     setFiltered(result);
@@ -78,12 +79,29 @@ export default function Home() {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.title}>V Secretum</Text>
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={() => router.push("/(main)/add-password")}
-        >
-          <Text style={styles.addButtonText}>+ Add</Text>
-        </TouchableOpacity>
+        <View style={styles.headerRight}>
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => router.push("/(main)/add-password")}
+          >
+            <Text style={styles.addButtonText}>+</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.profileButton}
+            onPress={() => router.push("/(main)/profile")}
+          >
+            {user?.photoUrl ? (
+              <Image
+                source={{ uri: user.photoUrl }}
+                style={styles.profileImage}
+              />
+            ) : (
+              <Text style={styles.profileInitial}>
+                {user?.name?.[0]?.toUpperCase() ?? "?"}
+              </Text>
+            )}
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Search */}
@@ -187,14 +205,26 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     marginTop: 8,
   },
+  headerRight: { flexDirection: "row", alignItems: "center", gap: 10 },
+  profileButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: "#1a1a2e",
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  },
+  profileImage: { width: 36, height: 36, borderRadius: 18 },
+  profileInitial: { color: "#4285F4", fontWeight: "700", fontSize: 15 },
   title: { color: "#fff", fontSize: 28, fontWeight: "bold" },
   addButton: {
     backgroundColor: "#4285F4",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 2,
+    borderRadius: 10,
   },
-  addButtonText: { color: "#fff", fontWeight: "600", fontSize: 14 },
+  addButtonText: { color: "#fff", fontWeight: "600", fontSize: 20 },
   search: {
     backgroundColor: "#1a1a2e",
     color: "#fff",

@@ -23,7 +23,7 @@ export default function CopyRow({ label, value, secret }: CopyRowProps) {
     if (!value) return;
     await Clipboard.setStringAsync(value);
     setCopied(true);
-    
+
     // Feedback animation
     Animated.sequence([
       Animated.timing(scaleAnim, {
@@ -54,16 +54,6 @@ export default function CopyRow({ label, value, secret }: CopyRowProps) {
           {secret && !revealed ? "••••••••••••••••" : value}
         </Text>
         <View style={rowStyles.actions}>
-          {secret && (
-            <TouchableOpacity
-              style={rowStyles.actionBtn}
-              onPress={() => setRevealed((v) => !v)}
-            >
-              <Text style={rowStyles.actionText}>
-                {revealed ? "Hide" : "Show"}
-              </Text>
-            </TouchableOpacity>
-          )}
           <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
             <TouchableOpacity
               style={[rowStyles.actionBtn, copied && rowStyles.copiedBtn]}
@@ -76,6 +66,16 @@ export default function CopyRow({ label, value, secret }: CopyRowProps) {
               </Text>
             </TouchableOpacity>
           </Animated.View>
+          {secret && (
+            <TouchableOpacity
+              style={rowStyles.actionBtn}
+              onPress={() => setRevealed((v) => !v)}
+            >
+              <Text style={rowStyles.actionText}>
+                {revealed ? "Hide" : "Show"}
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </View>

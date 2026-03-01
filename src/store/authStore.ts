@@ -12,9 +12,11 @@ interface AuthState {
   setPinVerified: (val: boolean) => void;
   logout: () => void;
   hydrate: () => Promise<void>;
+  setSavedFields: (emails: string[], phones: string[]) => void;
+  updateUser: (fields: Partial<User>) => Promise<void>;
 }
 
-export const useAuthStore = create<AuthState>((set: any) => ({
+export const useAuthStore = create<AuthState>((set: any, get: any) => ({
   user: null,
   isAuthenticated: false,
   isPinVerified: false,
@@ -59,5 +61,21 @@ export const useAuthStore = create<AuthState>((set: any) => ({
     } finally {
       set({ isHydrated: true }); // always mark as done even if failed
     }
+  },
+
+  setSavedFields: (emails, phones) => {
+    const current = get().user;
+    if (!current) return;
+    const updated = { ...current, savedEmails: emails, savedPhones: phones };
+    SecureStore.setItemAsync("current_user", JSON.stringify(updated));
+    set({ user: updated });
+  },
+
+  updateUser: async (fields) => {
+    const current = get().user;
+    if (!current) return;
+    const updated = { ...current, ...fields };
+    await SecureStore.setItemAsync("current_user", JSON.stringify(updated));
+    set({ user: updated });
   },
 }));

@@ -43,7 +43,7 @@ export default function PasswordDetail() {
 
   useEffect(() => {
     if (!user || !id) return;
-    getPasswordWithID(user._id!, id).then((result) => {
+    getPasswordWithID(user._id!, id, user.googleId).then((result) => {
       setEntry(result);
       setLoading(false);
       Animated.parallel([
@@ -63,7 +63,7 @@ export default function PasswordDetail() {
 
   const handleDelete = () => {
     Alert.alert(
-      "Delete Entry",
+      "Delete Password",
       `Delete "${entry?.title}"? This cannot be undone.`,
       [
         { text: "Cancel", style: "cancel" },
@@ -75,14 +75,14 @@ export default function PasswordDetail() {
             setDeleting(true);
             try {
               await deletePassword(entry._id);
-              router.back();
+              router.replace("/(main)/home");
             } catch {
               Alert.alert("Error", "Failed to delete. Try again.");
               setDeleting(false);
             }
           },
         },
-      ],
+      ]
     );
   };
 
@@ -176,8 +176,12 @@ export default function PasswordDetail() {
         {/* Credentials */}
         <Text style={styles.sectionTitle}>CREDENTIALS</Text>
         <View style={styles.card}>
-          <CopyRow label="Username / Email" value={entry.username || ""} />
+          <CopyRow label="Username" value={entry.username || ""} />
           {entry.username ? <View style={styles.fieldSep} /> : null}
+          <CopyRow label="Email" value={entry.email || ""} />
+          {entry.email ? <View style={styles.fieldSep} /> : null}
+          <CopyRow label="Phone Number" value={entry.phoneNumber || ""} />
+          {entry.phoneNumber ? <View style={styles.fieldSep} /> : null}
           <CopyRow label="Password" value={entry.password} secret />
         </View>
 
@@ -231,7 +235,7 @@ export default function PasswordDetail() {
           {deleting ? (
             <ActivityIndicator color="#ff4444" />
           ) : (
-            <Text style={styles.deleteBtnText}>Delete Entry</Text>
+            <Text style={styles.deleteBtnText}>Delete Password</Text>
           )}
         </TouchableOpacity>
 
@@ -282,7 +286,7 @@ const styles = StyleSheet.create({
   // Hero
   content: { padding: 20 },
   hero: {
-    flexDirection: "row",        // ← key change, was column
+    flexDirection: "row",
     alignItems: "center",
     paddingVertical: 20,
     paddingHorizontal: 4,
@@ -294,19 +298,19 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     alignItems: "center",
     justifyContent: "center",
-    flexShrink: 0,               // prevents icon from shrinking
+    flexShrink: 0,
   },
   heroLetter: {
-    fontSize: 28,                // slightly smaller than before
+    fontSize: 28,
     fontWeight: "800",
   },
   heroInfo: {
-    flex: 1,                     // takes remaining width
+    flex: 1,
     gap: 4,
   },
   heroTitle: {
     color: "#fff",
-    fontSize: 22,                // tighter than before
+    fontSize: 22,
     fontWeight: "800",
   },
   heroWebsite: {
@@ -316,7 +320,7 @@ const styles = StyleSheet.create({
   categoryBadge: {
     flexDirection: "row",
     alignItems: "center",
-    alignSelf: "flex-start",     // ← hugs content width, doesn't stretch
+    alignSelf: "flex-start",
     borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 10,

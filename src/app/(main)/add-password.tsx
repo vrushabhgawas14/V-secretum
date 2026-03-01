@@ -14,11 +14,12 @@ import { useAuthStore } from "../../store/authStore";
 import {
   addPassword,
   updatePassword,
-  getAllPasswords,
+  getPasswordWithID,
 } from "../../services/apiService";
 import { Category, PasswordEntry } from "../../types";
 import COLORS from "../../constants/color";
 import Field from "../../components/Field";
+import QuickSelectDropdown from "../../components/QuickSelectDropdown";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -42,7 +43,7 @@ const CATEGORIES: {
 // ─── Password Strength ────────────────────────────────────────────────────────
 
 const getStrength = (
-  pwd: string,
+  pwd: string
 ): { score: number; label: string; color: string } => {
   if (!pwd) return { score: 0, label: "", color: "transparent" };
   let score = 0;
@@ -66,6 +67,8 @@ export default function AddPassword() {
 
   const [title, setTitle] = useState("");
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [website, setWebsite] = useState("");
   const [notes, setNotes] = useState("");
@@ -77,6 +80,13 @@ export default function AddPassword() {
   // Animate form in on mount
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(24)).current;
+
+  const savedEmails = user
+    ? useAuthStore.getState().user?.savedEmails ?? []
+    : [];
+  const savedPhones = user
+    ? useAuthStore.getState().user?.savedPhones ?? []
+    : [];
 
   useEffect(() => {
     Animated.parallel([
@@ -96,12 +106,13 @@ export default function AddPassword() {
   // Load existing entry in edit mode
   useEffect(() => {
     if (!isEdit || !user || !user._id) return;
-    getAllPasswords(user._id)
-      .then((entries) => {
-        const entry = entries.find((e) => e._id === entryId);
+    getPasswordWithID(user._id, entryId, user.googleId)
+      .then((entry) => {
         if (entry) {
           setTitle(entry.title);
           setUsername(entry.username || "");
+          setEmail(entry.email || "");
+          setPhoneNumber(entry.phoneNumber || "");
           setPassword(entry.password);
           setWebsite(entry.website || "");
           setNotes(entry.notes || "");
@@ -124,17 +135,17 @@ export default function AddPassword() {
         owner: user._id,
         title: title.trim(),
         username: username.trim(),
+        email: email.trim(),
+        phoneNumber: phoneNumber.trim(),
         password: password.trim(),
         website: website.trim(),
         notes: notes.trim(),
         category,
       };
       if (isEdit && entryId) {
-        await updatePassword(entryId, entry, user._id!);
+        await updatePassword(entryId, entry, user._id!, user.googleId);
       } else {
-        console.log("Entry : ", entry);
-        console.log("User ID for Add password : ", user._id);
-        await addPassword(entry, user._id!);
+        await addPassword(entry, user._id!, user.googleId);
       }
       router.replace("/(main)/home");
     } catch {
@@ -186,11 +197,34 @@ export default function AddPassword() {
         {/* Username */}
         <View style={styles.fieldGap} />
         <Field
-          label="Username / Email"
+          label="Username"
           value={username}
           onChangeText={setUsername}
-          placeholder="you@example.com"
+          placeholder="Johndoe"
+        />
+
+        {/* Email */}
+        <View style={styles.fieldGap} />
+        <QuickSelectDropdown
+          label="Email"
+          options={savedEmails}
+          value={email}
+          onSelect={setEmail}
+          onFreeTypeChange={setEmail}
+          placeholder="Select or type email"
           keyboardType="email-address"
+        />
+
+        {/* Phone */}
+        <View style={styles.fieldGap} />
+        <QuickSelectDropdown
+          label="Phone Number"
+          options={savedPhones}
+          value={phoneNumber}
+          onSelect={setPhoneNumber}
+          onFreeTypeChange={setPhoneNumber}
+          placeholder="Select or type phone"
+          keyboardType="phone-pad"
         />
 
         {/* Password */}
@@ -283,14 +317,14 @@ export default function AddPassword() {
         />
 
         {/* Notes */}
-        <View style={styles.fieldGap} />
+        {/* <View style={styles.fieldGap} />
         <Field
           label="Notes"
           value={notes}
           onChangeText={setNotes}
           placeholder="Any extra info..."
           multiline
-        />
+        /> */}
 
         {/* Save */}
         <TouchableOpacity
@@ -303,7 +337,7 @@ export default function AddPassword() {
             <ActivityIndicator color="#fff" />
           ) : (
             <Text style={styles.saveBtnText}>
-              {isEdit ? "Update Entry" : "Save Entry"}
+              {isEdit ? "Update Password" : "Save Password"}
             </Text>
           )}
         </TouchableOpacity>

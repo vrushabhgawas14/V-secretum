@@ -1,6 +1,6 @@
 import { Stack, router } from "expo-router";
 import { useAuthStore } from "../store/authStore";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { ActivityIndicator, AppState, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import SafeScreen from "../components/SafeScreen";
@@ -10,6 +10,7 @@ import COLORS from "../constants/color";
 
 export default function RootLayout() {
   const { user, isHydrated, hydrate, setPinVerified } = useAuthStore();
+  const hasRedirected = useRef(false);
 
   useEffect(() => {
     hydrate();
@@ -17,9 +18,11 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (!isHydrated) return;
+    if (hasRedirected.current) return; // ADD this guard
+    hasRedirected.current = true;
 
     const redirect = async () => {
-      console.log("User in Layout: ", user);
+      // console.log("User in Layout: ", user);
       if (!user) {
         router.replace("/(auth)/login");
         return;
@@ -36,7 +39,7 @@ export default function RootLayout() {
     const sub = AppState.addEventListener("change", (state) => {
       if (state === "background") {
         setPinVerified(false);
-        console.log("App locked when closed in background");
+        // console.log("App locked when closed in background");
       }
     });
     return () => sub.remove();

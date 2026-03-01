@@ -16,10 +16,12 @@ export interface PasswordEntry {
 }
 
 export interface User {
-  _id?: string; // might delete this later
+  _id?: string;
   googleId: string;
   email: string;
   name: string;
   photoUrl?: string;
+  savedEmails?: string[];
+  savedPhones?: string[];
   createdAt?: Date;
 }
