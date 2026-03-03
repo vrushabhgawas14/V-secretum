@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import COLORS from "../constants/color";
 
 interface QuickSelectDropdownProps {
   label: string;
@@ -29,12 +30,12 @@ export default function QuickSelectDropdown({
   keyboardType,
 }: QuickSelectDropdownProps) {
   const [open, setOpen] = useState(false);
-
+  const [focused, setFocused] = useState(false);
   return (
     <View style={ddStyles.wrapper}>
       <Text style={ddStyles.label}>{label}</Text>
       {/* Free-type input */}
-      <View style={ddStyles.inputRow}>
+      <View style={[ddStyles.inputRow, focused && ddStyles.inputFocused]}>
         <TextInput
           style={ddStyles.input}
           value={value}
@@ -43,6 +44,9 @@ export default function QuickSelectDropdown({
           placeholderTextColor="#3a3a5a"
           keyboardType={keyboardType}
           autoCapitalize="none"
+          selectionColor="#3c1f57"
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
         />
         {options.length > 0 && (
           <TouchableOpacity
@@ -73,7 +77,7 @@ export default function QuickSelectDropdown({
               >
                 {opt}
               </Text>
-              {value === opt && <Text style={{ color: "#4285F4" }}>✓</Text>}
+              {value === opt && <Text style={{ color: "#cecece" }}>✓</Text>}
             </TouchableOpacity>
           ))}
         </View>
@@ -85,7 +89,7 @@ export default function QuickSelectDropdown({
 const ddStyles = StyleSheet.create({
   wrapper: { marginBottom: 4 },
   label: {
-    color: "#666",
+    color: COLORS.textSecondary,
     fontSize: 11,
     fontWeight: "600",
     letterSpacing: 1.2,
@@ -95,22 +99,26 @@ const ddStyles = StyleSheet.create({
   inputRow: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#151528",
+    backgroundColor: COLORS.inputBackground,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: "#1e1e3a",
+    borderColor: COLORS.border,
   },
   input: {
     flex: 1,
-    color: "#fff",
+    color: COLORS.textDark,
     fontSize: 15,
     paddingVertical: 14,
     paddingHorizontal: 14,
   },
+  inputFocused: {
+    borderColor: COLORS.inputBackgroundFocused,
+    backgroundColor: "#d8cfdf",
+  },
   dropBtn: { paddingHorizontal: 14, paddingVertical: 14 },
-  dropIcon: { color: "#4285F4", fontSize: 11 },
+  dropIcon: { color: COLORS.cardBackground, fontSize: 18 },
   dropdown: {
-    backgroundColor: "#1c1c32",
+    backgroundColor: COLORS.cardBackground,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: "#1e1e3a",
@@ -123,8 +131,10 @@ const ddStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#b6b6baa2",
   },
   optionActive: { backgroundColor: "#4285F412" },
   optionText: { color: "#aaa", fontSize: 14 },
-  optionTextActive: { color: "#fff", fontWeight: "600" },
+  optionTextActive: { color: "#edebeb", fontWeight: "600" },
 });

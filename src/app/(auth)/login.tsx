@@ -1,10 +1,18 @@
-import { View, Text, StyleSheet, Alert, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  ActivityIndicator,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import React, { useState } from "react";
 import { signIn } from "../../services/apiService";
 import { useAuthStore } from "../../store/authStore";
 import * as SecureStore from "expo-secure-store";
 import { router } from "expo-router";
-import { GoogleSigninButton } from "@react-native-google-signin/google-signin";
+import COLORS from "../../constants/color";
 
 export default function login() {
   const { setUser } = useAuthStore();
@@ -39,17 +47,26 @@ export default function login() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>🔐 V Secretum</Text>
-      <Text style={styles.subtitle}>Your personal password manager</Text>
+      <Text style={styles.subtitle}>Your Personal Password Manager</Text>
 
       {loading ? (
-        <ActivityIndicator size="large" color="#4285F4" />
+        <View style={[styles.customGoogleBtn, { justifyContent: "center" }]}>
+          <ActivityIndicator size="large" color="#4285F4" />
+        </View>
       ) : (
-        <GoogleSigninButton
-          style={{ width: 250, height: 50 }}
-          size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.Light}
+        <TouchableOpacity
+          style={styles.customGoogleBtn}
           onPress={handleGoogleSignIn}
-        />
+          activeOpacity={0.8}
+        >
+          <View style={styles.iconWrapper}>
+            <Image
+              source={require("../../../assets/google.png")}
+              style={styles.googleIcon}
+            />
+          </View>
+          <Text style={styles.googleBtnText}>Sign in with Google</Text>
+        </TouchableOpacity>
       )}
     </View>
   );
@@ -60,9 +77,43 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#0f0f1a",
+    backgroundColor: COLORS.darkBackground,
     padding: 24,
   },
-  title: { fontSize: 36, fontWeight: "bold", color: "#fff", marginBottom: 8 },
-  subtitle: { fontSize: 16, color: "#aaa", marginBottom: 48 },
+  title: {
+    fontSize: 36,
+    fontWeight: "bold",
+    color: COLORS.white,
+    marginBottom: 8,
+  },
+  subtitle: { fontSize: 16, color: COLORS.offWhite, marginBottom: 48 },
+  customGoogleBtn: {
+    backgroundColor: "#ffffff",
+    flexDirection: "row",
+    alignItems: "center",
+    width: 250,
+    height: 56,
+    borderRadius: 14,
+    paddingHorizontal: 16,
+    elevation: 8,
+  },
+  iconWrapper: {
+    width: 30,
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  googleIcon: {
+    width: 28,
+    height: 28,
+    resizeMode: "contain",
+  },
+  googleBtnText: {
+    flex: 1,
+    textAlign: "center",
+    color: "#000",
+    fontSize: 16,
+    fontWeight: "600",
+    marginRight: 24,
+  },
 });

@@ -7,6 +7,7 @@ import {
   Animated,
 } from "react-native";
 import * as Clipboard from "expo-clipboard";
+import COLORS from "../constants/color";
 
 interface CopyRowProps {
   label: string;
@@ -85,15 +86,15 @@ export default function CopyRow({ label, value, secret }: CopyRowProps) {
 const rowStyles = StyleSheet.create({
   wrapper: { marginBottom: 16 }, // Increased margin for better spacing between rows
   label: {
-    color: "#555",
+    color: COLORS.offWhite,
     fontSize: 11,
     fontWeight: "600",
     letterSpacing: 1.2,
     textTransform: "uppercase",
-    marginBottom: 8,
+    marginBottom: 10,
   },
   row: {
-    backgroundColor: "#151528",
+    backgroundColor: COLORS.inputBackground,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: "#1e1e3a",
@@ -101,19 +102,19 @@ const rowStyles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  value: { color: "#fff", fontSize: 15, flex: 1, marginRight: 8 },
+  value: { color: COLORS.textDark, fontSize: 15, flex: 1, marginRight: 8 },
   actions: { flexDirection: "row", gap: 6 },
   actionBtn: {
-    backgroundColor: "#1e1e3a",
+    backgroundColor: COLORS.button,
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 6,
   },
   copiedBtn: {
-    backgroundColor: "#00c48c22",
+    backgroundColor: COLORS.button,
     borderWidth: 1,
     borderColor: "#00c48c44",
   },
-  actionText: { color: "#4285F4", fontSize: 12, fontWeight: "700" },
+  actionText: { color: COLORS.offWhite, fontSize: 12, fontWeight: "700" },
   copiedText: { color: "#00c48c" },
 });

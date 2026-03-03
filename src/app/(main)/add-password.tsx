@@ -28,16 +28,36 @@ const CATEGORIES: {
   value: Category;
   emoji: string;
   color: string;
+  bgColor: string;
 }[] = [
-  { label: "Imp", value: "important", emoji: "🔴", color: "#ff4444" },
+  {
+    label: "Imp",
+    value: "important",
+    emoji: "🔴",
+    color: "#ff1a1a",
+    bgColor: "#770000",
+  },
   {
     label: "Least Imp",
     value: "least_important",
     emoji: "🟡",
-    color: "#ffaa00",
+    color: "#ffd580",
+    bgColor: "#5c4009",
   },
-  { label: "Work", value: "work", emoji: "💼", color: "#4285F4" },
-  { label: "Other", value: "other", emoji: "📁", color: "#888" },
+  {
+    label: "Work",
+    value: "work",
+    emoji: "💼",
+    color: "#000752",
+    bgColor: "#0d0073",
+  },
+  {
+    label: "Other",
+    value: "other",
+    emoji: "📁",
+    color: "#38005e",
+    bgColor: "#38005e",
+  },
 ];
 
 // ─── Password Strength ────────────────────────────────────────────────────────
@@ -52,10 +72,10 @@ const getStrength = (
   if (/[A-Z]/.test(pwd)) score++;
   if (/[0-9]/.test(pwd)) score++;
   if (/[^A-Za-z0-9]/.test(pwd)) score++;
-  if (score <= 1) return { score, label: "Weak", color: "#ff4444" };
-  if (score <= 3) return { score, label: "Fair", color: "#ffaa00" };
-  if (score === 4) return { score, label: "Good", color: "#4285F4" };
-  return { score, label: "Strong", color: "#00c48c" };
+  if (score <= 1) return { score, label: "Weak", color: "#ac0000" };
+  if (score <= 3) return { score, label: "Fair", color: "#035f00" };
+  if (score === 4) return { score, label: "Good", color: "#024bc2" };
+  return { score, label: "Strong", color: "#38005e" };
 };
 
 // ─── Main Screen ──────────────────────────────────────────────────────────────
@@ -80,13 +100,6 @@ export default function AddPassword() {
   // Animate form in on mount
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(24)).current;
-
-  const savedEmails = user
-    ? useAuthStore.getState().user?.savedEmails ?? []
-    : [];
-  const savedPhones = user
-    ? useAuthStore.getState().user?.savedPhones ?? []
-    : [];
 
   useEffect(() => {
     Animated.parallel([
@@ -160,7 +173,7 @@ export default function AddPassword() {
   if (loadingEntry) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator size="large" color="#4285F4" />
+        <ActivityIndicator size="large" color={COLORS.loader} />
       </View>
     );
   }
@@ -207,7 +220,7 @@ export default function AddPassword() {
         <View style={styles.fieldGap} />
         <QuickSelectDropdown
           label="Email"
-          options={savedEmails}
+          options={user?.savedEmails ?? []}
           value={email}
           onSelect={setEmail}
           onFreeTypeChange={setEmail}
@@ -219,7 +232,7 @@ export default function AddPassword() {
         <View style={styles.fieldGap} />
         <QuickSelectDropdown
           label="Phone Number"
-          options={savedPhones}
+          options={user?.savedPhones ?? []}
           value={phoneNumber}
           onSelect={setPhoneNumber}
           onFreeTypeChange={setPhoneNumber}
@@ -281,8 +294,8 @@ export default function AddPassword() {
                 style={[
                   styles.catChip,
                   active && {
-                    borderColor: cat.color,
-                    backgroundColor: cat.color + "18",
+                    borderColor: cat.bgColor,
+                    backgroundColor: cat.bgColor + "18",
                   },
                 ]}
                 onPress={() => setCategory(cat.value)}
@@ -298,7 +311,7 @@ export default function AddPassword() {
                 </Text>
                 {active && (
                   <View
-                    style={[styles.catDot, { backgroundColor: cat.color }]}
+                    style={[styles.catDot, { backgroundColor: cat.bgColor }]}
                   />
                 )}
               </Pressable>
@@ -374,17 +387,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  backArrow: { color: "#4285F4", fontSize: 18 },
+  backArrow: { color: COLORS.offWhite, fontSize: 18 },
   headerTitle: {
-    color: "#fff",
+    color: COLORS.textDark,
     fontSize: 18,
-    fontWeight: "700",
+    fontWeight: "900",
     letterSpacing: 0.3,
   },
   content: { padding: 20, paddingTop: 24 },
   fieldGap: { height: 16 },
   sectionLabel: {
-    color: "#666",
+    color: COLORS.textSecondary,
     fontSize: 11,
     fontWeight: "600",
     letterSpacing: 1.2,
@@ -407,19 +420,6 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
 
-  // Generate
-  generateBtn: {
-    marginTop: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#4285F4",
-    borderStyle: "dashed",
-    alignItems: "center",
-  },
-  generateText: { color: "#4285F4", fontSize: 13, fontWeight: "600" },
-
   // Category
   categoryGrid: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
   catChip: {
@@ -434,20 +434,20 @@ const styles = StyleSheet.create({
     backgroundColor: "#151528",
   },
   catEmoji: { fontSize: 14 },
-  catLabel: { color: "#888", fontSize: 13 },
-  catDot: { width: 5, height: 5, borderRadius: 3, marginLeft: 2 },
+  catLabel: { color: COLORS.offWhite, fontSize: 13 },
+  catDot: { width: 5, height: 5, borderRadius: 4, marginLeft: 2 },
 
   // Save
   saveBtn: {
     marginTop: 32,
-    backgroundColor: "#4285F4",
+    backgroundColor: COLORS.button,
     borderRadius: 14,
     paddingVertical: 16,
     alignItems: "center",
   },
   saveBtnDisabled: { opacity: 0.6 },
   saveBtnText: {
-    color: "#fff",
+    color: COLORS.white,
     fontSize: 16,
     fontWeight: "700",
     letterSpacing: 0.3,

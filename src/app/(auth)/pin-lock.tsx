@@ -106,16 +106,21 @@ export default function PinLock() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.darkBackground,
     alignItems: "center",
     justifyContent: "center",
   },
-  title: { color: "#fff", fontSize: 26, fontWeight: "700", marginBottom: 4 },
-  subtitle: { color: "#888", fontSize: 14, marginBottom: 32 },
+  title: {
+    color: COLORS.white,
+    fontSize: 26,
+    fontWeight: "700",
+    marginBottom: 4,
+  },
+  subtitle: { color: COLORS.offWhite, fontSize: 14, marginBottom: 32 },
   dots: { flexDirection: "row", gap: 16, marginBottom: 12 },
   dot: {
-    width: 16,
-    height: 16,
+    width: 20,
+    height: 20,
     borderRadius: 8,
     borderWidth: 2,
     borderColor: "#4285F4",
@@ -137,9 +142,9 @@ const styles = StyleSheet.create({
     marginTop: 24,
     borderRadius: 20,
     borderWidth: 2,
-    borderColor: "#3e77d2b8",
+    borderColor: "#c7dcffb8",
     padding: 10,
     paddingHorizontal: 20,
   },
-  biometricText: { color: "#4285F4", fontSize: 14 },
+  biometricText: { color: "#aecdff", fontSize: 14, fontWeight: "900" },
 });

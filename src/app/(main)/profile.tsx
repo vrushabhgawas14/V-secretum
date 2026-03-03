@@ -18,10 +18,10 @@ import * as SecureStore from "expo-secure-store";
 
 const categoryMeta = [
   { key: "all", label: "All", emoji: "🗂️", color: "#fff" },
-  { key: "important", label: "Important", emoji: "🔴", color: "#ff4444" },
-  { key: "least_important", label: "Least Imp", emoji: "🟡", color: "#ffaa00" },
-  { key: "work", label: "Work", emoji: "💼", color: "#4285F4" },
-  { key: "other", label: "Other", emoji: "📁", color: "#888888" },
+  { key: "important", label: "Important", emoji: "🔴", color: "#ff7c7c" },
+  { key: "least_important", label: "Least Imp", emoji: "🟡", color: "#ffc95d" },
+  { key: "work", label: "Work", emoji: "💼", color: "#75a9fd" },
+  { key: "other", label: "Other", emoji: "📁", color: "#d79aff" },
 ];
 
 export default function Profile() {
@@ -127,7 +127,7 @@ export default function Profile() {
   if (loading) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator size="large" color="#4285F4" />
+        <ActivityIndicator size="large" color={COLORS.loader} />
       </View>
     );
   }
@@ -202,6 +202,7 @@ export default function Profile() {
             keyboardType="email-address"
             autoCapitalize="none"
             onSubmitEditing={handleAddEmail}
+            selectionColor="#3c1f57"
           />
           <TouchableOpacity style={styles.addBtn} onPress={handleAddEmail}>
             <Text style={styles.addBtnText}>Add</Text>
@@ -309,11 +310,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  backArrow: { color: "#4285F4", fontSize: 18 },
-  headerTitle: { color: "#fff", fontSize: 18, fontWeight: "700" },
+  backArrow: { color: COLORS.offWhite, fontSize: 18 },
+  headerTitle: { color: COLORS.textDark, fontSize: 18, fontWeight: "900" },
 
   userCard: {
-    backgroundColor: "#151528",
+    backgroundColor: COLORS.homePageCard,
     borderRadius: 20,
     padding: 24,
     alignItems: "center",
@@ -332,11 +333,16 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   avatarInitial: { color: "#4285F4", fontSize: 32, fontWeight: "800" },
-  userName: { color: "#fff", fontSize: 20, fontWeight: "700", marginBottom: 4 },
-  userEmail: { color: "#555", fontSize: 13 },
+  userName: {
+    color: COLORS.white,
+    fontSize: 20,
+    fontWeight: "700",
+    marginBottom: 4,
+  },
+  userEmail: { color: COLORS.offWhite, fontSize: 13 },
 
   sectionLabel: {
-    color: "#444",
+    color: COLORS.textSecondary,
     fontSize: 11,
     fontWeight: "700",
     letterSpacing: 1.4,
@@ -353,7 +359,7 @@ const styles = StyleSheet.create({
   countCard: {
     flex: 1,
     minWidth: "28%",
-    backgroundColor: "#151528",
+    backgroundColor: COLORS.homePageCard,
     borderRadius: 14,
     padding: 14,
     alignItems: "center",
@@ -362,10 +368,10 @@ const styles = StyleSheet.create({
   },
   countEmoji: { fontSize: 20, marginBottom: 6 },
   countNumber: { fontSize: 22, fontWeight: "800", marginBottom: 2 },
-  countLabel: { color: "#555", fontSize: 11, textAlign: "center" },
+  countLabel: { color: COLORS.white, fontSize: 11, textAlign: "center" },
 
   card: {
-    backgroundColor: "#151528",
+    backgroundColor: COLORS.homePageCard,
     borderRadius: 14,
     borderWidth: 1,
     borderColor: "#1e1e3a",
@@ -373,7 +379,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   emptyHint: {
-    color: "#333",
+    color: COLORS.offWhite,
     fontSize: 13,
     paddingVertical: 4,
     marginBottom: 8,
@@ -384,9 +390,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: "#1e1e3a",
+    borderBottomColor: COLORS.offWhite,
   },
-  chipText: { color: "#ccc", fontSize: 14, flex: 1 },
+  chipText: { color: COLORS.offWhite, fontSize: 14, flex: 1 },
   chipRemove: {
     color: "#ff4444",
     fontSize: 14,
@@ -396,11 +402,11 @@ const styles = StyleSheet.create({
   addRow: { flexDirection: "row", alignItems: "center", gap: 8, marginTop: 10 },
   addInput: {
     flex: 1,
-    backgroundColor: "#0f0f1a",
+    backgroundColor: COLORS.inputBackground,
     borderRadius: 10,
     paddingHorizontal: 12,
     paddingVertical: 10,
-    color: "#fff",
+    color: COLORS.textDark,
     fontSize: 14,
     borderWidth: 1,
     borderColor: "#1e1e3a",
@@ -411,18 +417,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 10,
     borderWidth: 1,
-    borderColor: "#4285F444",
+    borderColor: "#b7cbfd82",
   },
-  addBtnText: { color: "#4285F4", fontWeight: "700", fontSize: 13 },
+  addBtnText: { color: COLORS.offWhite, fontWeight: "700", fontSize: 13 },
 
   saveBtn: {
-    backgroundColor: "#4285F4",
+    backgroundColor: COLORS.button,
     borderRadius: 14,
     paddingVertical: 15,
     alignItems: "center",
     marginBottom: 28,
   },
-  saveBtnText: { color: "#fff", fontSize: 15, fontWeight: "700" },
+  saveBtnText: { color: COLORS.white, fontSize: 15, fontWeight: "700" },
 
   settingRow: {
     flexDirection: "row",
@@ -432,12 +438,12 @@ const styles = StyleSheet.create({
   settingIcon: { fontSize: 20, marginRight: 14 },
   settingInfo: { flex: 1 },
   settingTitle: {
-    color: "#fff",
+    color: COLORS.white,
     fontSize: 15,
     fontWeight: "600",
     marginBottom: 2,
   },
-  settingSubtitle: { color: "#555", fontSize: 12 },
-  settingArrow: { color: "#333", fontSize: 22 },
+  settingSubtitle: { color: COLORS.offWhite, fontSize: 12 },
+  settingArrow: { color: COLORS.offWhite, fontSize: 22 },
   settingDivider: { height: 1, backgroundColor: "#1e1e3a", marginVertical: 2 },
 });

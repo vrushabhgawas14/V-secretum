@@ -87,16 +87,21 @@ export default function PinSetup() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.darkBackground,
     alignItems: "center",
     justifyContent: "center",
   },
-  title: { color: "#fff", fontSize: 24, fontWeight: "600", marginBottom: 8 },
-  subtitle: { color: "#888", fontSize: 14, marginBottom: 40 },
+  title: {
+    color: COLORS.white,
+    fontSize: 24,
+    fontWeight: "600",
+    marginBottom: 8,
+  },
+  subtitle: { color: COLORS.offWhite, fontSize: 14, marginBottom: 40 },
   dots: { flexDirection: "row", gap: 16, marginBottom: 200 },
   dot: {
-    width: 16,
-    height: 16,
+    width: 20,
+    height: 20,
     borderRadius: 8,
     borderWidth: 2,
     borderColor: "#4285F4",

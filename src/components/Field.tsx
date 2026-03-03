@@ -7,6 +7,7 @@ import {
   TextInputProps,
   ViewStyle,
 } from "react-native";
+import COLORS from "../constants/color";
 
 interface FieldProps extends TextInputProps {
   label: string;
@@ -50,6 +51,7 @@ export default function Field({
           numberOfLines={multiline ? 3 : 1}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
+          selectionColor="#3c1f57"
           {...rest}
         />
         {rightElement}
@@ -61,7 +63,7 @@ export default function Field({
 const fieldStyles = StyleSheet.create({
   wrapper: { marginBottom: 4 },
   label: {
-    color: "#666",
+    color: COLORS.textSecondary,
     fontSize: 11,
     fontWeight: "600",
     letterSpacing: 1.2,
@@ -71,13 +73,16 @@ const fieldStyles = StyleSheet.create({
   inputRow: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#151528",
+    backgroundColor: COLORS.inputBackground,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: "#1e1e3a",
+    borderColor: COLORS.border,
     paddingHorizontal: 14,
   },
-  inputFocused: { borderColor: "#4285F4" },
-  input: { flex: 1, color: "#fff", fontSize: 15, paddingVertical: 14 },
+  inputFocused: {
+    borderColor: COLORS.inputBackgroundFocused,
+    backgroundColor: "#d8cfdf",
+  },
+  input: { flex: 1, color: COLORS.textDark, fontSize: 15, paddingVertical: 14 },
   multiline: { height: 80, textAlignVertical: "top", paddingTop: 14 },
 });

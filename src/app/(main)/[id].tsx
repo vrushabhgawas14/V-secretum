@@ -21,10 +21,10 @@ const categoryMeta: Record<
   Category,
   { label: string; color: string; emoji: string }
 > = {
-  important: { label: "Important", color: "#ff4444", emoji: "🔴" },
-  least_important: { label: "Least Important", color: "#ffaa00", emoji: "🟡" },
-  work: { label: "Work", color: "#4285F4", emoji: "💼" },
-  other: { label: "Other", color: "#888888", emoji: "📁" },
+  important: { label: "Important", color: "#770000", emoji: "🔴" },
+  least_important: { label: "Least Important", color: "#5c4009", emoji: "🟡" },
+  work: { label: "Work", color: "#000752", emoji: "💼" },
+  other: { label: "Other", color: "#38005e", emoji: "📁" },
 };
 
 // ─── Main Screen ──────────────────────────────────────────────────────────────
@@ -90,7 +90,7 @@ export default function PasswordDetail() {
   if (loading) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator size="large" color="#4285F4" />
+        <ActivityIndicator size="large" color={COLORS.loader} />
       </View>
     );
   }
@@ -177,11 +177,8 @@ export default function PasswordDetail() {
         <Text style={styles.sectionTitle}>CREDENTIALS</Text>
         <View style={styles.card}>
           <CopyRow label="Username" value={entry.username || ""} />
-          {entry.username ? <View style={styles.fieldSep} /> : null}
           <CopyRow label="Email" value={entry.email || ""} />
-          {entry.email ? <View style={styles.fieldSep} /> : null}
           <CopyRow label="Phone Number" value={entry.phoneNumber || ""} />
-          {entry.phoneNumber ? <View style={styles.fieldSep} /> : null}
           <CopyRow label="Password" value={entry.password} secret />
         </View>
 
@@ -263,25 +260,25 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     paddingHorizontal: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#1a1a2e",
+    borderBottomColor: COLORS.homePageCard,
   },
   backBtn: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#1a1a2e",
+    backgroundColor: COLORS.homePageCard,
     alignItems: "center",
     justifyContent: "center",
   },
-  backArrow: { color: "#4285F4", fontSize: 18 },
-  headerTitle: { color: "#fff", fontSize: 18, fontWeight: "700" },
+  backArrow: { color: COLORS.offWhite, fontSize: 18 },
+  headerTitle: { color: COLORS.textDark, fontSize: 18, fontWeight: "900" },
   editBtn: {
-    backgroundColor: "#4285F422",
+    backgroundColor: COLORS.button,
     borderRadius: 10,
     paddingHorizontal: 14,
     paddingVertical: 8,
   },
-  editText: { color: "#4285F4", fontWeight: "700", fontSize: 14 },
+  editText: { color: COLORS.offWhite, fontWeight: "700", fontSize: 14 },
 
   // Hero
   content: { padding: 20 },
@@ -309,7 +306,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   heroTitle: {
-    color: "#fff",
+    color: COLORS.textDark,
     fontSize: 22,
     fontWeight: "800",
   },
@@ -336,11 +333,11 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
 
-  divider: { height: 1, backgroundColor: "#1a1a2e", marginVertical: 20 },
+  divider: { height: 1, backgroundColor: "#1a1a2e", marginVertical: 10 },
 
   // Sections
   sectionTitle: {
-    color: "#444",
+    color: COLORS.textSecondary,
     fontSize: 11,
     fontWeight: "700",
     letterSpacing: 1.4,
@@ -348,14 +345,14 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   card: {
-    backgroundColor: "#151528",
+    backgroundColor: "#1a1a2e",
     borderRadius: 14,
     borderWidth: 1,
     borderColor: "#1e1e3a",
     padding: 14,
     marginBottom: 20,
   },
-  fieldSep: { height: 1, backgroundColor: "#1e1e3a", marginVertical: 10 },
+  fieldSep: { height: 1, backgroundColor: COLORS.offWhite, marginVertical: 0 },
   notesText: { color: "#ccc", fontSize: 14, lineHeight: 22 },
 
   // Timestamps
@@ -364,13 +361,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 24,
   },
-  timestampText: { color: "#333", fontSize: 11 },
+  timestampText: { color: COLORS.textSecondary, fontSize: 11 },
 
   // Delete
   deleteBtn: {
     borderWidth: 1,
-    borderColor: "#ff444440",
-    backgroundColor: "#ff444412",
+    borderColor: "#060000",
+    backgroundColor: "#1a1a2e",
     borderRadius: 14,
     paddingVertical: 15,
     alignItems: "center",

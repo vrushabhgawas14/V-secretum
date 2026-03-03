@@ -25,10 +25,10 @@ const CATEGORIES: { label: string; value: Category | "all" }[] = [
 ];
 
 const categoryColor: Record<Category, string> = {
-  important: "#ff4444",
-  least_important: "#ffaa00",
-  work: "#4285F4",
-  other: "#888",
+  important: "#ff6060",
+  least_important: "#ffbe3c",
+  work: "#949dff",
+  other: "#ddaaff",
 };
 
 export default function Home() {
@@ -108,9 +108,10 @@ export default function Home() {
       <TextInput
         style={styles.search}
         placeholder="Search title, username, site..."
-        placeholderTextColor="#555"
+        placeholderTextColor="#b4b4b4"
         value={search}
         onChangeText={setSearch}
+        selectionColor={COLORS.offWhite}
       />
 
       {/* Category filter */}
@@ -148,7 +149,7 @@ export default function Home() {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={load}
-            tintColor="#4285F4"
+            tintColor={COLORS.loader}
           />
         }
         renderItem={({ item }) => (
@@ -160,7 +161,7 @@ export default function Home() {
               <View
                 style={[
                   styles.iconCircle,
-                  { backgroundColor: categoryColor[item.category] + "22" },
+                  { backgroundColor: categoryColor[item.category] + "60" },
                 ]}
               >
                 <Text
@@ -175,7 +176,7 @@ export default function Home() {
               <View>
                 <Text style={styles.cardTitle}>{item.title}</Text>
                 <Text style={styles.cardSub} numberOfLines={1}>
-                  {item.username || item.website || "No username"}
+                  {item.username || item.email || item.phoneNumber || ""}
                 </Text>
               </View>
             </View>
@@ -187,7 +188,7 @@ export default function Home() {
             <Text style={styles.emptyText}>
               {search
                 ? "No results found"
-                : "No passwords yet\nTap + Add to get started"}
+                : "No passwords yet\nTap + to get started"}
             </Text>
           </View>
         }
@@ -210,26 +211,27 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: "#1a1a2e",
+    backgroundColor: COLORS.homePageCard,
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
   },
   profileImage: { width: 36, height: 36, borderRadius: 18 },
   profileInitial: { color: "#4285F4", fontWeight: "700", fontSize: 15 },
-  title: { color: "#fff", fontSize: 28, fontWeight: "bold" },
+  title: { color: COLORS.textDark, fontSize: 28, fontWeight: "bold" },
   addButton: {
-    backgroundColor: "#4285F4",
+    backgroundColor: COLORS.homePageCard,
     paddingHorizontal: 20,
     paddingVertical: 2,
     borderRadius: 10,
   },
-  addButtonText: { color: "#fff", fontWeight: "600", fontSize: 20 },
+  addButtonText: { color: COLORS.white, fontWeight: "600", fontSize: 20 },
   search: {
-    backgroundColor: "#1a1a2e",
-    color: "#fff",
+    backgroundColor: COLORS.homePageCard,
+    color: COLORS.white,
     borderRadius: 10,
     padding: 12,
+    paddingStart: 16,
     marginBottom: 12,
     fontSize: 14,
   },
@@ -237,15 +239,15 @@ const styles = StyleSheet.create({
   catChip: {
     paddingHorizontal: 14,
     paddingVertical: 7,
-    borderRadius: 20,
-    backgroundColor: "#1a1a2e",
+    borderRadius: 12,
+    backgroundColor: COLORS.homePageCard,
     marginRight: 8,
   },
-  catChipActive: { backgroundColor: "#4285F4" },
-  catText: { color: "#aaa", fontSize: 13 },
-  catTextActive: { color: "#fff", fontWeight: "600" },
+  catChipActive: { backgroundColor: "#ded6e4" },
+  catText: { color: COLORS.offWhite, fontSize: 13 },
+  catTextActive: { color: COLORS.textDark, fontWeight: "600" },
   card: {
-    backgroundColor: "#1a1a2e",
+    backgroundColor: COLORS.homePageCard,
     borderRadius: 12,
     padding: 14,
     marginBottom: 10,
@@ -257,15 +259,15 @@ const styles = StyleSheet.create({
   iconCircle: {
     width: 42,
     height: 42,
-    borderRadius: 21,
+    borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
     marginRight: 12,
   },
   iconText: { fontSize: 18, fontWeight: "700" },
-  cardTitle: { color: "#fff", fontSize: 15, fontWeight: "600" },
-  cardSub: { color: "#888", fontSize: 12, marginTop: 2, maxWidth: 200 },
-  arrow: { color: "#555", fontSize: 24 },
+  cardTitle: { color: COLORS.white, fontSize: 15, fontWeight: "600" },
+  cardSub: { color: "#cfcfcf", fontSize: 12, marginTop: 2, maxWidth: 200 },
+  arrow: { color: "#d5d5d5", fontSize: 24 },
   emptyContainer: { alignItems: "center", marginTop: 80 },
   emptyText: {
     color: "#555",
