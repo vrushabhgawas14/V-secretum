@@ -22,6 +22,7 @@ const categoryMeta: Record<
   { label: string; color: string; emoji: string }
 > = {
   important: { label: "Important", color: "#770000", emoji: "🔴" },
+  socials: { label: "Socials", color: "#033e2e", emoji: "✨" },
   least_important: { label: "Least Important", color: "#5c4009", emoji: "🟡" },
   work: { label: "Work", color: "#000752", emoji: "💼" },
   other: { label: "Other", color: "#38005e", emoji: "📁" },
@@ -157,7 +158,6 @@ export default function PasswordDetail() {
               style={[
                 styles.categoryBadge,
                 {
-                  borderColor: meta.color + "60",
                   backgroundColor: meta.color + "18",
                 },
               ]}
@@ -296,6 +296,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexShrink: 0,
+    borderWidth : 1,
+    borderColor : COLORS.homePageCard
   },
   heroLetter: {
     fontSize: 28,
@@ -320,6 +322,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     borderWidth: 1,
     borderRadius: 10,
+    borderColor : COLORS.homePageCard,
     paddingHorizontal: 10,
     paddingVertical: 4,
     gap: 4,

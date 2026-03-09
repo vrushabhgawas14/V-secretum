@@ -41,7 +41,7 @@ export default function QuickSelectDropdown({
           value={value}
           onChangeText={onFreeTypeChange ?? onSelect}
           placeholder={placeholder}
-          placeholderTextColor="#3a3a5a"
+          placeholderTextColor="#7d7d8d"
           keyboardType={keyboardType}
           autoCapitalize="none"
           selectionColor="#3c1f57"

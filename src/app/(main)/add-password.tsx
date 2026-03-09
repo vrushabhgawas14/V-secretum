@@ -38,6 +38,13 @@ const CATEGORIES: {
     bgColor: "#770000",
   },
   {
+    label: "Socials",
+    value: "socials",
+    emoji: "✨",
+    color: "#31f3e0",
+    bgColor: "#033e2e",
+  },
+  {
     label: "Least Imp",
     value: "least_important",
     emoji: "🟡",
@@ -320,24 +327,24 @@ export default function AddPassword() {
         </View>
 
         {/* Website */}
-        <View style={styles.fieldGap} />
+        {/* <View style={styles.fieldGap} />
         <Field
           label="Website"
           value={website}
           onChangeText={setWebsite}
           placeholder="https://example.com"
           keyboardType="url"
-        />
+        /> */}
 
         {/* Notes */}
-        {/* <View style={styles.fieldGap} />
+        <View style={styles.fieldGap} />
         <Field
           label="Notes"
           value={notes}
           onChangeText={setNotes}
           placeholder="Any extra info..."
           multiline
-        /> */}
+        />
 
         {/* Save */}
         <TouchableOpacity

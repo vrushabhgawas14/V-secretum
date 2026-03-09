@@ -19,6 +19,7 @@ import * as SecureStore from "expo-secure-store";
 const categoryMeta = [
   { key: "all", label: "All", emoji: "🗂️", color: "#fff" },
   { key: "important", label: "Important", emoji: "🔴", color: "#ff7c7c" },
+  { key: "socials", label: "Socials", emoji: "🟢", color: "#00eaac" },
   { key: "least_important", label: "Least Imp", emoji: "🟡", color: "#ffc95d" },
   { key: "work", label: "Work", emoji: "💼", color: "#75a9fd" },
   { key: "other", label: "Other", emoji: "📁", color: "#d79aff" },

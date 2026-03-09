@@ -18,14 +18,16 @@ import COLORS from "../../constants/color";
 
 const CATEGORIES: { label: string; value: Category | "all" }[] = [
   { label: "All", value: "all" },
-  { label: "🔴 Imp", value: "important" },
-  { label: "🟡 Least Imp", value: "least_important" },
+  { label: "🔴 IMP", value: "important" },
+  { label: "🟢 Socials", value: "socials" },
+  { label: "🟡 Least IMP", value: "least_important" },
   { label: "💼 Work", value: "work" },
   { label: "📁 Other", value: "other" },
 ];
 
 const categoryColor: Record<Category, string> = {
   important: "#ff6060",
+  socials: "#00eaac",
   least_important: "#ffbe3c",
   work: "#949dff",
   other: "#ddaaff",
@@ -68,7 +70,9 @@ export default function Home() {
         (p) =>
           p.title.toLowerCase().includes(q) ||
           p.username?.toLowerCase().includes(q) ||
-          p.website?.toLowerCase().includes(q)
+          p.email?.toLowerCase().includes(q) ||
+          p.phoneNumber?.toLowerCase().includes(q) ||
+          p.notes?.toLowerCase().includes(q)
       );
     }
     setFiltered(result);

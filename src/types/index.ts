@@ -1,4 +1,4 @@
-export type Category = "important" | "least_important" | "work" | "other";
+export type Category = "important" | "socials" | "least_important" | "work" | "other";
 
 export interface PasswordEntry {
   _id?: string;
