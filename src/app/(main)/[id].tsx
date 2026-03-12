@@ -195,9 +195,8 @@ export default function PasswordDetail() {
         {/* Notes */}
         {entry.notes ? (
           <>
-            <Text style={styles.sectionTitle}>NOTES</Text>
             <View style={styles.card}>
-              <Text style={styles.notesText}>{entry.notes}</Text>
+              <CopyRow label="NOTES" value={entry.notes} />
             </View>
           </>
         ) : null}
