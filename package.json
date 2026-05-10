@@ -12,7 +12,7 @@
     "@react-native-google-signin/google-signin": "^16.1.1",
     "@rneui/base": "^5.0.0",
     "@rneui/themed": "^5.0.0",
-    "axios": "^1.13.5",
+    "axios": "1.13.5",
     "crypto-es": "^3.1.2",
     "expo": "~54.0.33",
     "expo-auth-session": "~7.0.10",

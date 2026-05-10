@@ -18,6 +18,7 @@ const BASE_URL = process.env.EXPO_PUBLIC_DEPLOYED_BACKEND;
 const api = axios.create({ baseURL: BASE_URL });
 
 api.interceptors.request.use(async (config) => {
+  // console.log("API Request:", config.method?.toUpperCase(), config.url);
   const token = await SecureStore.getItemAsync("jwt_token");
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
@@ -33,7 +34,6 @@ export const signIn = async () => {
   try {
     // console.log("Current Config:", await GoogleSignin.getCurrentUser());
     await GoogleSignin.hasPlayServices();
-    // await singout();  // clears the current user
     const response = await GoogleSignin.signIn();
 
     if (!isSuccessResponse(response)) {
@@ -63,7 +63,7 @@ export const signIn = async () => {
           Alert.alert("Error : Play Services is Not Available");
           break;
         default:
-          console.log(error.message);
+          console.log("Sign in error : ", error.message);
           break;
       }
     } else {
@@ -101,7 +101,9 @@ const decryptEntry = (
 
 export const getAllPasswords = async (): Promise<PasswordEntry[]> => {
   const res = await api.get("/passwords");
-  return res.data;
+  // Save JWT for all future API calls - This is the refresh token received from backend
+  await SecureStore.setItemAsync("jwt_token", res.data.token);
+  return res.data.passwords;
 };
 
 export const getPasswordWithID = async (

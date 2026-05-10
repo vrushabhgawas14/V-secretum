@@ -15,6 +15,7 @@ import { useAuthStore } from "../../store/authStore";
 import { getAllPasswords } from "../../services/apiService";
 import { PasswordEntry, Category } from "../../types";
 import COLORS from "../../constants/color";
+import { isErrorWithCode } from "@react-native-google-signin/google-signin";
 
 const CATEGORIES: { label: string; value: Category | "all" }[] = [
   { label: "All", value: "all" },
@@ -34,7 +35,7 @@ const categoryColor: Record<Category, string> = {
 };
 
 export default function Home() {
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const [passwords, setPasswords] = useState<PasswordEntry[]>([]);
   const [filtered, setFiltered] = useState<PasswordEntry[]>([]);
   const [search, setSearch] = useState("");
@@ -47,8 +48,25 @@ export default function Home() {
     try {
       const data = await getAllPasswords();
       setPasswords(data);
-    } catch {
-      Alert.alert("Error", "Failed to load passwords.");
+    } catch (err: any) {
+      console.log("Error fetching passwords:", err.message || err);
+      if (isErrorWithCode(err)) {
+        if (err.message === "Request failed with status code 401") {
+          Alert.alert("Session Expired", "Please log in again.", [
+            // { text: "Cancel", style: "cancel" },
+            {
+              text: "Ok",
+              style: "destructive",
+              onPress: async () => {
+                await logout();
+                router.replace("/(auth)/login");
+              },
+            },
+          ]);
+        } else {
+          Alert.alert("Error", "Failed to load passwords.");
+        }
+      }
     } finally {
       setRefreshing(false);
     }
